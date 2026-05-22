@@ -229,11 +229,15 @@ export default function AgentWorkspace() {
             </div>
             <div className="flex items-center justify-between">
               <span className="text-xs text-zinc-500">Agency</span>
-              <span className="text-xs text-white font-medium">{context?.agency_name || 'Sakinah.co'}</span>
+              <span className="text-xs text-white font-medium">Sakinah.co</span>
+            </div>
+            <div className="flex items-center justify-between">
+              <span className="text-xs text-zinc-500">Instagram</span>
+              <span className="text-xs text-emerald-500 font-medium">@buildsakinah</span>
             </div>
             <div className="flex items-center justify-between">
               <span className="text-xs text-zinc-500">Mission Day</span>
-              <span className="text-xs text-emerald-500 font-bold">12 / 30</span>
+              <span className="text-xs text-emerald-500 font-bold">3 / 30</span>
             </div>
           </div>
 
