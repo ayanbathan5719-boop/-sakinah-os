@@ -8,11 +8,6 @@ import { usePathname } from "next/navigation";
 
 const inter = Inter({ subsets: ["latin"] });
 
-export const metadata: Metadata = {
-  title: "Sakinah OS | Founder Operating System",
-  description: "AI-powered dashboard for founders and creators building in public.",
-};
-
 export default function RootLayout({
   children,
 }: Readonly<{

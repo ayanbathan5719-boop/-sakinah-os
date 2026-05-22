@@ -1,6 +1,6 @@
 'use client';
 
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { 
   Zap, 
   Target, 
@@ -8,8 +8,10 @@ import {
   Clock, 
   TrendingUp,
   BrainCircuit,
-  Rocket
+  Rocket,
+  Loader2
 } from 'lucide-react';
+import { supabase } from '@/lib/supabase';
 
 const StatCard = ({ label, value, subtext, icon: Icon, color }: any) => (
   <div className="bg-[#0a0a0a] border border-[#1a1a1a] rounded-xl p-6 relative overflow-hidden group hover:border-emerald-500/50 transition-all duration-300">
@@ -42,39 +44,68 @@ const TaskItem = ({ title, type, completed }: any) => (
 );
 
 export default function Dashboard() {
+  const [profile, setProfile] = useState<any>(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    async function getProfile() {
+      if (!supabase) return;
+      
+      const { data, error } = await supabase
+        .from('profiles')
+        .select('*')
+        .eq('id', '00000000-0000-0000-0000-000000000000')
+        .single();
+
+      if (data) setProfile(data);
+      setLoading(false);
+    }
+    getProfile();
+  }, []);
+
+  if (loading) {
+    return (
+      <div className="h-screen flex items-center justify-center">
+        <Loader2 className="w-8 h-8 text-emerald-500 animate-spin" />
+      </div>
+    );
+  }
+
   return (
     <div className="max-w-6xl mx-auto space-y-10">
       <header className="space-y-2">
-        <h1 className="text-3xl font-bold tracking-tight text-white">Good Morning, Founder</h1>
-        <p className="text-zinc-400">Day 12 of 30 • Sakinah.co Phase: Lead Gen Setup</p>
+        <h1 className="text-3xl font-bold tracking-tight text-white">
+          Good Morning, {profile?.full_name?.split(' ')[0] || 'Founder'}
+        </h1>
+        <p className="text-zinc-400">Day 3 of 30 • {profile?.agency_name || 'Sakinah.co'} Phase: Foundation</p>
       </header>
 
       <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
         <StatCard 
-          label="Days Streak" 
-          value="12/30" 
-          subtext="+2 from last week" 
+          label="Challenge Day" 
+          value="03/30" 
+          subtext="Phase 1: Tool Setup" 
           icon={Clock} 
           color="bg-emerald-500"
         />
         <StatCard 
           label="Total Posts" 
-          value="24" 
-          subtext="2 scheduled for today" 
+          value="2" 
+          subtext="Day 3 Reel in progress" 
           icon={Rocket} 
           color="bg-purple-500"
         />
         <StatCard 
           label="Learning Milestones" 
-          value="8" 
-          subtext="Next: Automated Outreach" 
+          value="2" 
+          subtext="Next: Clay AI Enrichment" 
           icon={BrainCircuit} 
           color="bg-blue-500"
         />
         <StatCard 
-          label="Estimated Reach" 
-          value="12.4k" 
-          subtext="+15% since yesterday" 
+          label="Budget Spent" 
+          value="$0" 
+          subtext="Goal: Stay Lean" 
           icon={TrendingUp} 
           color="bg-orange-500"
         />
@@ -92,17 +123,22 @@ export default function Dashboard() {
             </div>
             
             <div className="bg-zinc-900/50 p-6 rounded-xl border border-zinc-800 border-l-4 border-l-emerald-500">
-              <p className="text-lg text-zinc-100 font-medium">Record "Day 12" Reel: How I found 50 recruitment agencies using AI scrapers in 10 minutes.</p>
-              <p className="text-zinc-500 mt-2 text-sm">Primary Goal: Showcase technical expertise + Provide value to B2B agencies.</p>
+              <p className="text-lg text-zinc-100 font-medium">
+                Export 50 Verified Recruitment Leads from Apollo.io and record Day 3 Reel.
+              </p>
+              <p className="text-zinc-500 mt-2 text-sm">
+                Primary Goal: Technical validation + Documentary storytelling of "The Discovery".
+              </p>
             </div>
 
             <div className="space-y-3 pt-4">
               <h3 className="text-sm font-medium text-zinc-400 uppercase tracking-wider">Strategic Tasks</h3>
               <div className="space-y-3">
-                <TaskItem title="Refine outreach script for B2B recruitment" type="execution" />
-                <TaskItem title="Learn advanced Apollo.io filtering techniques" type="learning" completed={true} />
-                <TaskItem title="Draft Instagram caption with SEO keywords" type="content" />
-                <TaskItem title="Daily accountability check-in" type="execution" />
+                <TaskItem title="Learn Apollo filters for B2B Recruitment" type="learning" completed={true} />
+                <TaskItem title="Export 50 verified leads to CSV" type="execution" />
+                <TaskItem title="Document list building process in Notion" type="execution" />
+                <TaskItem title="Record BandLab audio (+2 semitones)" type="content" />
+                <TaskItem title="Post Day 3 Reel tagging Jordan Platten" type="content" />
               </div>
             </div>
           </div>
@@ -115,22 +151,26 @@ export default function Dashboard() {
               Mindset Insight
             </h2>
             <p className="text-zinc-300 italic leading-relaxed">
-              "Consistency is the only competitive advantage that can't be bought. 
-              Today you're not just making content, you're building an asset for Sakinah.co."
+              "The magic you're looking for is in the work you're avoiding. Today's data export isn't just a task—it's the fuel for your first client campaign."
             </p>
             <div className="pt-2 text-xs text-zinc-500 font-medium">— Mentor Agent</div>
           </div>
 
           <div className="bg-[#0a0a0a] border border-[#1a1a1a] rounded-2xl p-6 space-y-4">
-            <h2 className="text-lg font-semibold">Content Calendar</h2>
-            <div className="space-y-4">
-              {[1, 2, 3].map((i) => (
-                <div key={i} className="flex items-center gap-3">
-                  <div className="text-xs font-mono text-zinc-500">MAY {22+i}</div>
-                  <div className="h-px flex-1 bg-zinc-800" />
-                  <div className="text-xs text-emerald-500">Reel</div>
-                </div>
-              ))}
+            <h2 className="text-lg font-semibold">Mission Intel</h2>
+            <div className="space-y-3">
+              <div className="flex justify-between text-xs">
+                <span className="text-zinc-500">Niche:</span>
+                <span className="text-emerald-500 font-medium">Recruitment Agencies</span>
+              </div>
+              <div className="flex justify-between text-xs">
+                <span className="text-zinc-500">IG Handle:</span>
+                <span className="text-emerald-500 font-medium">@iqra.leadgen</span>
+              </div>
+              <div className="flex justify-between text-xs">
+                <span className="text-zinc-500">Budget:</span>
+                <span className="text-emerald-500 font-medium">$0 (Free Stack)</span>
+              </div>
             </div>
           </div>
         </div>
