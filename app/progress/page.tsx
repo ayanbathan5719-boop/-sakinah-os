@@ -53,10 +53,10 @@ export default function ProgressPage() {
       </header>
 
       <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-        <MetricCard label="Instagram Followers" value="2,482" change="+12.4%" trend="up" icon={TrendingUp} />
-        <MetricCard label="Reels Engagement" value="8.2%" change="+2.1%" trend="up" icon={Zap} />
-        <MetricCard label="Outreach Volume" value="142" change="-5.2%" trend="down" icon={Target} />
-        <MetricCard label="Milestones Met" value="14/20" change="+3" trend="up" icon={Award} />
+        <MetricCard label="Instagram Followers" value="3" change="+3" trend="up" icon={TrendingUp} />
+        <MetricCard label="Reels Engagement" value="0%" change="0%" trend="up" icon={Zap} />
+        <MetricCard label="Outreach Volume" value="50" change="+50" trend="up" icon={Target} />
+        <MetricCard label="Milestones Met" value="2/20" change="+2" trend="up" icon={Award} />
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
@@ -80,12 +80,12 @@ export default function ProgressPage() {
 
           <div className="flex gap-2 h-32 items-end">
             {Array.from({ length: 30 }).map((_, i) => {
-              const height = Math.random() * 100;
+              const height = i < 3 ? [40, 70, 90][i] : 5; // Hardcoded progress for first 3 days
               return (
                 <div 
                   key={i} 
                   className="flex-1 bg-emerald-500/20 hover:bg-emerald-500 rounded-t-sm transition-all cursor-help group relative"
-                  style={{ height: `${Math.max(10, height)}%` }}
+                  style={{ height: `${height}%` }}
                 >
                   <div className="absolute bottom-full mb-2 left-1/2 -translate-x-1/2 bg-white text-black text-[10px] py-1 px-2 rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap font-bold">
                     Day {i+1}: 4 Tasks Done
